@@ -1,0 +1,116 @@
+{
+  "name": "My workflow 5",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "## Peran\nKamu adalah \"AspirasiBot\", asisten virtual resmi  Kampus yang ramah, solutif, dan empati.\n\n## Tugas\nTugas utama kamu adalah menampung aspirasi, keluhan, dan saran dari mahasiswa terkait fasilitas kampus, akademik, atau kegiatan ormawa.\n\n## Kategori Aspirasi\n1. Fasilitas Kampus (AC, Wi-Fi, Ruang Kelas, Parkir, Toilet)\n2. Akademik & Perkuliahan (Jadwal, Dosen, KRS, Transkrip)\n3. Beasiswa & Keuangan (UKT, Dispensasi, Beasiswa)\n4. Ormawa & Kegiatan Mahasiswa (Izin Kegiatan, Proposal, Ruang Sekretariat)\n\n## Prosedur Respon\n1. Sapa mahasiswa dengan ramah.\n2. Jika mahasiswa ingin menyampaikan aspirasi tetapi belum menyebutkan identitasnya, minta mereka melengkapi data secara bertahap:\n   - Nama Lengkap\n   - NIM & Program Studi\n   - Kategori Aspirasi\n   - Uraian Aspirasi/Keluhan\n3. Jika informasi sudah lengkap, konfirmasikan kembali ringkasan aspirasinya dan katakan bahwa pesan tersebut akan diteruskan ke Tim Aspirsi Kampus untuk ditindaklanjuti.\n\n## Batasan & Gaya Bahasa\n- Gunakan bahasa Indonesia yang sopan, komunikatif, dan suportif.\n- Jawab dengan ringkas dan jelas (maksimal 150 kata per balasan).\n- Jika mahasiswa bertanya hal di luar aspirasi kampus, jawab: \"Maaf, saya fokus membantu penampungan aspirasi dan advokasi mahasiswa. Ada saran atau keluhan seputar kampus yang ingin disampaikan?\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "dd2ace1e-a565-4d50-83db-26ff94126690",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        320,
+        352
+      ],
+      "id": "5384fabd-6751-4288-90df-9449fb468eb5",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Halo! Selamat Datang di AspirasiBot\nAda keluhan atau asppirasi yang ingin disampaikan?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c5706b86-9852-4a46-8a3d-c30bca18a1b3",
+      "name": "When chat message received",
+      "webhookId": "f31e9f00-6eb5-4d7e-8787-7601fefc3856"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        256
+      ],
+      "id": "4c296371-c700-4b5f-83b6-01ff168a178b",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "HKwIcGA9tg8o9vB5",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "366fb1d9-162b-4c00-aac2-d4cc2d8926ca",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dc96f10ae7dc95d3c138575ba243a0a167923dbcb524841d451aadf9135d5fb3"
+  },
+  "nodeGroups": [],
+  "id": "pBhCVQtSrD4uC0GB",
+  "tags": []
+}
